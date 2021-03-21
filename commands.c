@@ -40,6 +40,8 @@ int select_command(int length, char *args[]) {
 	}
 }
 
+// commands
+
 int neighborhood_command(int argc, char *argv[]) {
 	if (argc < 2) {
 		printf("%s\n", command_descriptions[NEIGHBORHOOD]);
