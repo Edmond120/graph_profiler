@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include "commands.h"
 
@@ -10,13 +11,16 @@ static int lookup(char * table[], int length, char *string) {
 	return -1;
 }
 
-static int neighborhood_command(int argc, char *argv[]) {
-	// incomplete
-	return 0;
-}
-
-static char *commands[] = {
+char * commands[] = {
 	"neighborhood",
+};
+
+char * command_descriptions[] = {
+	"neighborhood <profile> <filename>\n"
+	"\t<profile> is either Imax, Imin, Emax, or Emin\n"
+	"\t<filename> is in g6 format, showg from nauty is used\n"
+	"\tbehind the scenes to read the file.\n"
+	"\tThe profile for each graph in <filename> will be printed out line by line.",
 };
 static int command_count = sizeof(commands)/sizeof(char *);
 enum command_num {
@@ -34,4 +38,12 @@ int select_command(int length, char *args[]) {
 		default:
 			return -1;
 	}
+}
+
+int neighborhood_command(int argc, char *argv[]) {
+	if (argc < 2) {
+		printf("%s\n", command_descriptions[NEIGHBORHOOD]);
+		return 1;
+	}
+	return 0;
 }

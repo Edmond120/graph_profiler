@@ -11,4 +11,13 @@
  */
 int select_command(int length, char *argv[]);
 
+// Array of command names for select_command
+extern char * commands[];
+
+// Array of command descriptions with indices matching commands
+extern char * command_descriptions[];
+
+// Commands
+int neighborhood_command(int argc, char *argv[]);
+
 #endif
