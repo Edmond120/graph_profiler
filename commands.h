@@ -13,6 +13,7 @@ int select_command(int length, char *argv[]);
 
 // Array of command names for select_command
 extern char * commands[];
+extern int commands_length;
 
 // Array of command descriptions with indices matching commands
 extern char * command_descriptions[];

@@ -14,6 +14,7 @@ static int lookup(char * table[], int length, char *string) {
 char * commands[] = {
 	"neighborhood",
 };
+int commands_length = sizeof(commands) / sizeof(char *);
 
 char * command_descriptions[] = {
 	"neighborhood <profile> <filename>\n"
@@ -22,14 +23,13 @@ char * command_descriptions[] = {
 	"\tbehind the scenes to read the file.\n"
 	"\tThe profile for each graph in <filename> will be printed out line by line.",
 };
-static int command_count = sizeof(commands)/sizeof(char *);
 enum command_num {
 	NEIGHBORHOOD,
 };
 
 int select_command(int length, char *args[]) {
 	if (length < 2) { return -1; }
-	int command_num = lookup(commands, command_count, args[1]);
+	int command_num = lookup(commands, commands_length, args[1]);
 	int argc = length - 2;
 	char **argv = args + 2;
 	switch (command_num) {
