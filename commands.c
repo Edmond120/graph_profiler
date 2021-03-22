@@ -19,10 +19,11 @@ int commands_length = sizeof(commands) / sizeof(char *);
 char * command_descriptions[] = {
 	"neighborhood <profile> <filename>\n"
 	"\t<profile> is either Imax, Imin, Emax, or Emin\n"
-	"\t<filename> is in g6 format, showg from nauty is used\n"
-	"\tbehind the scenes to read the file.\n"
-	"\tThe profile for each graph in <filename> will be printed out line by line.",
+	"\t<filename> is in g6 format, showg from nauty is used behind the scenes\n"
+	"\tto read the file. The profile for each graph in <filename> will be\n"
+	"\tprinted out line by line.",
 };
+
 enum command_num {
 	NEIGHBORHOOD,
 };
