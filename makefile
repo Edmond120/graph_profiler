@@ -6,8 +6,8 @@ CFLAGS = -Wall
 profiler: main.c build/commands.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-build/commands.o: commands.c commands.h
-	$(CC) $(CFLAGS) -c -o $@ commands.c
+build/commands.o: commands.c commands.h build/neighborhood.o
+	$(CC) $(CFLAGS) -c -o $@ commands.c build/neighborhood.o
 
 build/neighborhood.o: neighborhood.c neighborhood.h build/profile.o
 	$(CC) $(CFLAGS) -c -o $@ neighborhood.c build/profile.o
