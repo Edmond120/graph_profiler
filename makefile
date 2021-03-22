@@ -3,8 +3,11 @@
 CC = gcc
 CFLAGS = -Wall
 
-profiler: main.c build/commands.o
-	$(CC) $(CFLAGS) -o $@ $^
+profiler: build/main.o
+	$(CC) $(CFLAGS) -o profiler build/main.o
+
+build/main.o: main.c build/commands.o
+	$(CC) $(CFLAGS) -o $@ main.c build/commands.o
 
 build/commands.o: commands.c commands.h build/neighborhood.o
 	$(CC) $(CFLAGS) -c -o $@ commands.c build/neighborhood.o
