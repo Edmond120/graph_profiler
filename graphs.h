@@ -1,5 +1,6 @@
 #ifndef GRAPHS_H
 #define GRAPHS_H
+#include <stdio.h>
 
 typedef struct {
 	int * sequence;
@@ -33,5 +34,15 @@ void free_graph(Graph *graph);
 Node * create_node(int edge_count);
 
 void free_node(Node *node);
+
+/* Read in a single graph from file and creates it.
+ * The arg file should be from showg_graph_stream or a file containing
+ * the output of the executable showg.
+ * This uses create_graph behind the scenes. */
+Graph * read_in_graph(FILE *file);
+
+/* Uses showg to parse a .g6 file and returns a FILE pointer to the
+ * output */
+FILE * showg_graph_stream(char *filename);
 
 #endif
