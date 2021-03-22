@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "commands.h"
+#include "neighborhood.h"
 
 static int lookup(char * table[], int length, char *string) {
 	for (int i = 0; i < length; i++) {
