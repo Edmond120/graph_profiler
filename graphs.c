@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include "graphs.h"
 
-Profile * create_profile(unsigned int n) {
+Profile * create_profile(unsigned int length) {
 	Profile * profile = (Profile *) malloc(sizeof(Profile));
-	profile->sequence = (int *) calloc(n, sizeof(int));
-	profile->n = n;
+	profile->sequence = (int *) calloc(length, sizeof(int));
+	profile->length = length;
 	return profile;
 }
 

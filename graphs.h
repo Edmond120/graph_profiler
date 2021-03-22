@@ -3,7 +3,7 @@
 
 typedef struct {
 	int * sequence;
-	unsigned int n; // length of sequence
+	unsigned int length;
 } Profile;
 
 Profile * create_profile(unsigned int n);
