@@ -1,6 +1,6 @@
 #ifndef NEIGHBORHOOD_H
 #define NEIGHBORHOOD_H
 
-#include "profile.h"
+#include "graphs.h"
 
 #endif

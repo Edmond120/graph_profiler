@@ -1,5 +1,5 @@
-#ifndef PROFILE_H
-#define PROFILE_H
+#ifndef GRAPHS_H
+#define GRAPHS_H
 
 typedef struct {
 	int * sequence;

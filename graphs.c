@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "profile.h"
+#include "graphs.h"
 
 Profile * create_profile(unsigned int n) {
 	Profile * profile = (Profile *) malloc(sizeof(Profile));
