@@ -47,8 +47,10 @@ Graph * read_in_graph(FILE *file);
  * output */
 FILE * showg_graph_stream(const char *filename);
 
+/* If graph is NULL, then "NULL\n" will be printed */
 void print_graph(Graph *graph);
 
+/* If node is NULL, then "NULL\n" will be printed */
 void print_node(Node *node);
 
 #endif
