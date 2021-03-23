@@ -52,7 +52,8 @@ FILE * showg_graph_stream(const char *filename) {
 	if (fork() == 0) {
 		// if child
 		close(fd[0]); // close read fd
-		execl("showg", filename, NULL);
+		dup2(fd[1], 1);
+		execlp("showg", "showg", filename, (char *) NULL);
 		return NULL;
 	} else {
 		close(fd[1]); // close write fd
