@@ -3,20 +3,17 @@
 CC = gcc
 CFLAGS = -Wall
 
-profiler: build/main.o
-	$(CC) $(CFLAGS) -o profiler build/*.o
+OBJS = build/commands.o build/graphs.o \
+	   build/main.o build/neighborhood.o
 
-build/main.o: main.c build/commands.o
-	$(CC) $(CFLAGS) -c -o $@ main.c
+profiler: $(OBJS)
+	$(CC) $(CFLAGS) -o profiler $(OBJS)
 
-build/commands.o: commands.c commands.h build/neighborhood.o
-	$(CC) $(CFLAGS) -c -o $@ commands.c
+build/%.o: %.c %.h
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-build/neighborhood.o: neighborhood.c neighborhood.h build/graphs.o
-	$(CC) $(CFLAGS) -c -o $@ neighborhood.c
-
-build/graphs.o: graphs.c graphs.h
-	$(CC) $(CFLAGS) -c -o $@ graphs.c
+build/main.o: main.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	-rm profiler
