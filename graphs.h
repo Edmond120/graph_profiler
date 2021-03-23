@@ -47,4 +47,8 @@ Graph * read_in_graph(FILE *file);
  * output */
 FILE * showg_graph_stream(const char *filename);
 
+void print_graph(Graph *graph);
+
+void print_node(Node *node);
+
 #endif

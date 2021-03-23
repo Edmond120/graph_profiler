@@ -117,3 +117,22 @@ Graph * read_in_graph(FILE *file) {
 	free(line);
 	return NULL;
 }
+
+void print_graph(Graph *graph) {
+	printf("Graph (order %d):\n", graph->order);
+	for (int i = 0; i < graph->order; i++) {
+		putchar('\t');
+		print_node(graph->nodes[i]);
+	}
+}
+
+void print_node(Node *node) {
+	printf("Node (edges: %d): ", node->edge_count);
+	for (int i = 0; i < node->edge_count; i++) {
+		printf("%d", node->edges[i]);
+		if (i != node->edge_count - 1) {
+			printf(", ");
+		}
+	}
+	putchar('\n');
+}
