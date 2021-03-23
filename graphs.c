@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include <stdbool.h>
 #include "graphs.h"
 
 Profile * create_profile(unsigned int length) {
@@ -59,4 +61,59 @@ FILE * showg_graph_stream(const char *filename) {
 		close(fd[1]); // close write fd
 		return fdopen(fd[0], "r");
 	}
+}
+
+// helper functions just for read_in_graph
+static bool is_empty_line(int length, char * line) {
+	return length <= 0 || (length == 1 && line[0] == '\n');
+}
+
+static int parse_edges(char *cursor, int *output, int length) {
+	int edge_count = 0;
+	while (length > edge_count && cursor != NULL && *cursor != '\0') {
+		char c = *cursor;
+		if (c == ' ' || c == ';' || c == '\n') {
+			cursor++;
+			continue;
+		}
+		int n;
+		sscanf(cursor, "%d", &n);
+		cursor = strchr(cursor, ' ');
+		output[edge_count] = n;
+		edge_count++;
+	}
+	return edge_count;
+}
+//
+Graph * read_in_graph(FILE *file) {
+	char * line = NULL;
+	size_t line_mem = 0;
+	ssize_t chars_read;
+	int graph_num, order;
+	Graph * graph = NULL;
+	do {
+		chars_read = getline(&line, &line_mem, file);
+		if (is_empty_line(chars_read, line)) {
+			if (graph == NULL) { continue; }
+			free(line);
+			return graph;
+		}
+		if (strstr(line, "Graph") == line) {
+			int items = sscanf(line, "Graph %d, order %d.\n", &graph_num, &order);
+			if (items != 2) { break; }
+			graph = create_graph(order);
+			continue;
+		}
+		int index;
+		int items = sscanf(line, "%d", &index);
+		if (items != 1) { break; }
+		int edges[order];
+		int edge_count = parse_edges(strchr(line, ':') + 1, edges, order);
+		Node * node = graph->nodes[index];
+		node->edge_count = edge_count;
+		node->edges = (int *) malloc(sizeof(int) * edge_count);
+		memcpy(node->edges, edges, edge_count);
+	} while (chars_read != -1);
+	free(line);
+	return NULL;
 }
