@@ -19,6 +19,8 @@ typedef struct {
 	int * edges;
 } Node;
 
+/* nodes points to a list of node pointers.
+ * Each of those node pointers point to a single Node */
 typedef struct {
 	int order;
 	Node ** nodes;
