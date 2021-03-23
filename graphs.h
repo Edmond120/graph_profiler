@@ -23,7 +23,9 @@ typedef struct {
 } Graph;
 
 /* Creates a graph of a certain order without any edges and
- * uninitialized nodes. Should be freed with free_graph */
+ * uninitialized nodes. Should be freed with free_graph.
+ * The nodes in the graph are also created, but their values are not
+ * initialized. */
 Graph * create_graph(int order);
 
 void free_graph(Graph *graph);
