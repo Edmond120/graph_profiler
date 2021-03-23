@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "graphs.h"
+#include "array_utils.h"
 
 Profile * create_profile(unsigned int length) {
 	Profile * profile = (Profile *) malloc(sizeof(Profile));
@@ -136,12 +137,7 @@ void print_node(Node *node) {
 		return;
 	}
 	printf("Node (edges: %d): ", node->edge_count);
-	for (int i = 0; i < node->edge_count; i++) {
-		printf("%d", node->edges[i]);
-		if (i != node->edge_count - 1) {
-			printf(", ");
-		}
-	}
+	print_int_array(node->edge_count, node->edges);
 	putchar('\n');
 }
 
@@ -151,11 +147,6 @@ void print_profile(Profile *profile) {
 		return;
 	}
 	printf("Profile (length: %d): ", profile->length);
-	for (int i = 0; i < profile->length; i++) {
-		printf("%d", profile->sequence[i]);
-		if (i != profile->length - 1) {
-			printf(", ");
-		}
-	}
+	print_int_array(profile->length, profile->sequence);
 	putchar('\n');
 }
