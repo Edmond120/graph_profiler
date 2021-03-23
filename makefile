@@ -4,7 +4,8 @@ CC = gcc
 CFLAGS = -Wall
 
 OBJS = build/commands.o build/graphs.o \
-	   build/main.o build/neighborhood.o
+	   build/main.o build/neighborhood.o \
+	   build/array_utils.o
 
 profiler: $(OBJS)
 	$(CC) $(CFLAGS) -o profiler $(OBJS)
