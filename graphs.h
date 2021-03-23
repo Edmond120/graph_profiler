@@ -7,7 +7,7 @@ typedef struct {
 	unsigned int length;
 } Profile;
 
-/* Creates aprofile with length n.
+/* Creates a profile with length n.
  * The sequence is zeroed */
 Profile * create_profile(unsigned int n);
 
