@@ -112,7 +112,7 @@ Graph * read_in_graph(FILE *file) {
 		Node * node = graph->nodes[index];
 		node->edge_count = edge_count;
 		node->edges = (int *) malloc(sizeof(int) * edge_count);
-		memcpy(node->edges, edges, edge_count);
+		memcpy(node->edges, edges, edge_count * sizeof(int));
 	} while (chars_read != -1);
 	free(line);
 	return NULL;
