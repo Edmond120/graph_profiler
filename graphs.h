@@ -55,4 +55,7 @@ void print_graph(Graph *graph);
 /* If node is NULL, then "NULL\n" will be printed */
 void print_node(Node *node);
 
+/* If profile is NULL, then "NULL\n" will be printed */
+void print_profile(Profile *profile);
+
 #endif

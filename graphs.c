@@ -144,3 +144,18 @@ void print_node(Node *node) {
 	}
 	putchar('\n');
 }
+
+void print_profile(Profile *profile) {
+	if (profile == NULL) {
+		printf("NULL\n");
+		return;
+	}
+	printf("Profile (length: %d): ", profile->length);
+	for (int i = 0; i < profile->length; i++) {
+		printf("%d", profile->sequence[i]);
+		if (i != profile->length - 1) {
+			printf(", ");
+		}
+	}
+	putchar('\n');
+}
