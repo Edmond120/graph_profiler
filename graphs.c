@@ -119,6 +119,10 @@ Graph * read_in_graph(FILE *file) {
 }
 
 void print_graph(Graph *graph) {
+	if (graph == NULL) {
+		printf("NULL\n");
+		return;
+	}
 	printf("Graph (order %d):\n", graph->order);
 	for (int i = 0; i < graph->order; i++) {
 		putchar('\t');
@@ -127,6 +131,10 @@ void print_graph(Graph *graph) {
 }
 
 void print_node(Node *node) {
+	if (node == NULL) {
+		printf("NULL\n");
+		return;
+	}
 	printf("Node (edges: %d): ", node->edge_count);
 	for (int i = 0; i < node->edge_count; i++) {
 		printf("%d", node->edges[i]);
