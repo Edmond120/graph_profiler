@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <unistd.h>
 #include "graphs.h"
 
 Profile * create_profile(unsigned int length) {
@@ -43,4 +44,18 @@ Node * create_node(int edge_count) {
 void free_node(Node *node) {
 	free(node->edges);
 	free(node);
+}
+
+FILE * showg_graph_stream(const char *filename) {
+	int fd[2];
+	pipe(fd);
+	if (fork() == 0) {
+		// if child
+		close(fd[0]); // close read fd
+		execl("showg", filename, NULL);
+		return NULL;
+	} else {
+		close(fd[1]); // close write fd
+		return fdopen(fd[0], "r");
+	}
 }

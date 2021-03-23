@@ -43,6 +43,6 @@ Graph * read_in_graph(FILE *file);
 
 /* Uses showg to parse a .g6 file and returns a FILE pointer to the
  * output */
-FILE * showg_graph_stream(char *filename);
+FILE * showg_graph_stream(const char *filename);
 
 #endif
