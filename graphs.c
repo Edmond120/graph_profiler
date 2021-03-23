@@ -138,7 +138,6 @@ void print_node(Node *node) {
 	}
 	printf("Node (edges: %d): ", node->edge_count);
 	print_int_array(node->edge_count, node->edges);
-	putchar('\n');
 }
 
 void print_profile(Profile *profile) {
@@ -148,5 +147,4 @@ void print_profile(Profile *profile) {
 	}
 	printf("Profile (length: %d): ", profile->length);
 	print_int_array(profile->length, profile->sequence);
-	putchar('\n');
 }
