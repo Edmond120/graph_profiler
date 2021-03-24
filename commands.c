@@ -73,5 +73,6 @@ int neighborhood_command(int argc, char *argv[]) {
 		free_graph(graph);
 		graph = read_in_graph(showg);
 	}
+	fclose(showg);
 	return 0;
 }
