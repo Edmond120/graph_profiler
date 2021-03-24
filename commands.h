@@ -11,12 +11,16 @@
  */
 int select_command(int length, char *argv[]);
 
-// Array of command names for select_command
-extern char * commands[];
-extern int commands_length;
+typedef struct {
+	char *command_name;
+	/* command_description should also contain the command name since
+	 * only the command description will be printed in the help message */
+	char *command_description;
+	int (*function)(int, char **);
+} command;
 
-// Array of command descriptions with indices matching commands
-extern char * command_descriptions[];
+extern command commands[];
+extern int commands_length;
 
 // Commands
 int neighborhood_command(int argc, char *argv[]);

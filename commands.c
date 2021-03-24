@@ -3,52 +3,47 @@
 #include "commands.h"
 #include "neighborhood.h"
 
-static int lookup(char * table[], int length, char *string) {
-	for (int i = 0; i < length; i++) {
-		if (strcmp(table[i], string) == 0) {
-			return i;
+command commands[] = {
+	{
+		"neighborhood",
+		"neighborhood <profile> <filename> [--no-showg]\n"
+		"\t<profile> is either Imax, Imin, Emax, or Emin\n"
+		"\t<filename> is in g6 format, showg from nauty is used behind the\n"
+		"\tscenes to read the file. The profile for each graph in\n"
+		"\t<filename> will be printed out line by line.\n"
+		"\tIf --no-showg is passed then <filename> is expected to be a file\n"
+		"\tthat is already parsed by showg.\n",
+		&neighborhood_command,
+	},
+};
+int commands_length = sizeof(commands) / sizeof(command);
+
+int select_command(int length, char *args[]) {
+	if (length < 2) { return -1; }
+	char *command_name = args[1];
+	for (int i = 0; i < commands_length; i++) {
+		if (strcmp(command_name, commands[i].command_name) == 0) {
+			return commands[i].function(length - 2, args + 2);
 		}
 	}
 	return -1;
 }
 
-char * commands[] = {
-	"neighborhood",
-};
-int commands_length = sizeof(commands) / sizeof(char *);
-
-char * command_descriptions[] = {
-	"neighborhood <profile> <filename> [--no-showg]\n"
-	"\t<profile> is either Imax, Imin, Emax, or Emin\n"
-	"\t<filename> is in g6 format, showg from nauty is used behind the\n"
-	"\tscenes to read the file. The profile for each graph in\n"
-	"\t<filename> will be printed out line by line.\n"
-	"\tIf --no-showg is passed then <filename> is expected to be a file\n"
-	"\tthat is already parsed by showg.\n",
-};
-
-enum command_num {
-	NEIGHBORHOOD,
-};
-
-int select_command(int length, char *args[]) {
-	if (length < 2) { return -1; }
-	int command_num = lookup(commands, commands_length, args[1]);
-	int argc = length - 2;
-	char **argv = args + 2;
-	switch (command_num) {
-		case NEIGHBORHOOD:
-			return neighborhood_command(argc, argv);
-		default:
-			return -1;
+void static print_command_description(char *command_name) {
+	for (int i = 0; i < commands_length; i++) {
+		if (strcmp(command_name, commands[i].command_name) == 0) {
+			printf("%s\n", commands[i].command_description);
+			return;
+		}
 	}
+	printf("Error: command description missing.\n");
 }
 
 /* commands */
 
 int neighborhood_command(int argc, char *argv[]) {
 	if (argc < 2) {
-		printf("%s\n", command_descriptions[NEIGHBORHOOD]);
+		print_command_description("neighborhood");
 		return 1;
 	}
 	char *ptype = argv[0];

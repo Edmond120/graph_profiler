@@ -5,7 +5,7 @@ static void print_help_message() {
 	printf("Usage: profiler <command> [<command args>]\n\n");
 	printf("Command List\n\n");
 	for (int i = 0; i < commands_length; i++) {
-		printf("%s\n\n", command_descriptions[i]);
+		printf("%s\n\n", commands[i].command_description);
 	}
 }
 
