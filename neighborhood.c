@@ -70,6 +70,7 @@ Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 		int length;
 		int *degree_seq = neighborhood_degree_sequence(graph, i, &length);
 		profile->sequence[i] = (*profile_func)(length, degree_seq);
+		free(degree_seq);
 	}
 	return profile;
 }
