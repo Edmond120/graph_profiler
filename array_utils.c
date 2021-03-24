@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "array_utils.h"
 
 void print_int_array(int length, int *array) {
@@ -12,7 +13,8 @@ void print_int_array(int length, int *array) {
 }
 
 void int_counting_sort(int bound, int length, int *array) {
-	int counts[bound] = {0};
+	int counts[bound];
+	memset(counts, 0, bound * sizeof(int));
 	for (int i = 0; i < length; i++) {
 		counts[array[i]] += 1;
 	}
