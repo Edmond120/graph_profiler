@@ -1,7 +1,7 @@
 .PHONY: clean
 
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -Og
 
 OBJS = build/commands.o build/graphs.o \
 	   build/main.o build/neighborhood.o \
