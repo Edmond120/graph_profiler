@@ -50,5 +50,29 @@ int neighborhood_command(int argc, char *argv[]) {
 		printf("%s\n", command_descriptions[NEIGHBORHOOD]);
 		return 1;
 	}
+	char *ptype = argv[0];
+	char *filename = argv[1];
+	N_profile_type profile_type;
+	if (strcmp(ptype, "Imax") == 0) {
+		profile_type = Imax;
+	} else if (strcmp(ptype, "Imin") == 0) {
+		profile_type = Imin;
+	} else if (strcmp(ptype, "Emax") == 0) {
+		profile_type = Emax;
+	} else if (strcmp(ptype, "Emin") == 0) {
+		profile_type = Emin;
+	} else {
+		printf("Error: unknown type %s\n", ptype);
+		return 1;
+	}
+	FILE * showg = showg_graph_stream(filename);
+	Graph *graph = read_in_graph(showg);
+	while (graph != NULL) {
+		Profile *nprofile = create_neighborhood_profile_sorted(graph, profile_type);
+		print_profile(nprofile);
+		free_profile(nprofile);
+		free_graph(graph);
+		graph = read_in_graph(showg);
+	}
 	return 0;
 }
