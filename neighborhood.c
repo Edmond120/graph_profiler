@@ -82,12 +82,12 @@ Profile * create_neighborhood_profile_sorted(Graph *graph, N_profile_type type) 
 
 int * neighborhood_degree_sequence(Graph *graph, int node_index, int *length) {
 	Node *node = graph->nodes[node_index];
-	int *deg_seq = (int *) calloc(node->edge_count, sizeof(int));
-	*length = node->edge_count;
-	for (int i = 0; i < node->edge_count; i++) {
+	int *deg_seq = (int *) calloc(node->degree, sizeof(int));
+	*length = node->degree;
+	for (int i = 0; i < node->degree; i++) {
 		int *edges = node->edges;
 		Node *neighbor = graph->nodes[edges[i]];
-		int degree = neighbor->edge_count;
+		int degree = neighbor->degree;
 		deg_seq[i] = degree;
 	}
 	return deg_seq;

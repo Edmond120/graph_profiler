@@ -35,11 +35,11 @@ void free_graph(Graph *graph) {
 	free(graph);
 }
 
-Node * create_node(int edge_count) {
+Node * create_node(int degree) {
 	Node *node = (Node *) malloc(sizeof(Node));
-	if (edge_count >= 0) {
-		node->edge_count = edge_count;
-		node->edges = (int *) malloc(edge_count * sizeof(int));
+	if (degree >= 0) {
+		node->degree = degree;
+		node->edges = (int *) malloc(degree * sizeof(int));
 	}
 	return node;
 }
@@ -70,8 +70,8 @@ static bool is_empty_line(int length, char * line) {
 }
 
 static int parse_edges(char *cursor, int *output, int length) {
-	int edge_count = 0;
-	while (length > edge_count && cursor != NULL && *cursor != '\0') {
+	int degree = 0;
+	while (length > degree && cursor != NULL && *cursor != '\0') {
 		char c = *cursor;
 		if (c == ' ' || c == ';' || c == '\n') {
 			cursor++;
@@ -80,10 +80,10 @@ static int parse_edges(char *cursor, int *output, int length) {
 		int n;
 		sscanf(cursor, "%d", &n);
 		cursor = strchr(cursor, ' ');
-		output[edge_count] = n;
-		edge_count++;
+		output[degree] = n;
+		degree++;
 	}
-	return edge_count;
+	return degree;
 }
 //
 Graph * read_in_graph(FILE *file) {
@@ -109,11 +109,11 @@ Graph * read_in_graph(FILE *file) {
 		int items = sscanf(line, "%d", &index);
 		if (items != 1) { break; }
 		int edges[order];
-		int edge_count = parse_edges(strchr(line, ':') + 1, edges, order);
+		int degree = parse_edges(strchr(line, ':') + 1, edges, order);
 		Node * node = graph->nodes[index];
-		node->edge_count = edge_count;
-		node->edges = (int *) malloc(sizeof(int) * edge_count);
-		memcpy(node->edges, edges, edge_count * sizeof(int));
+		node->degree = degree;
+		node->edges = (int *) malloc(sizeof(int) * degree);
+		memcpy(node->edges, edges, degree * sizeof(int));
 	} while (chars_read != -1);
 	free(line);
 	return NULL;
@@ -136,8 +136,8 @@ void print_node(Node *node) {
 		printf("NULL\n");
 		return;
 	}
-	printf("Node (edges: %d): ", node->edge_count);
-	print_int_array(node->edge_count, node->edges);
+	printf("Node (edges: %d): ", node->degree);
+	print_int_array(node->degree, node->edges);
 }
 
 void print_profile(Profile *profile) {
