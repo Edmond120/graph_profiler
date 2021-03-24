@@ -76,7 +76,7 @@ Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 
 Profile * create_neighborhood_profile_sorted(Graph *graph, N_profile_type type) {
 	Profile *profile = create_neighborhood_profile(graph, type);
-	int_counting_sort(profile->length, profile->length, profile->sequence);
+	int_counting_sort_rev(profile->length, profile->length, profile->sequence);
 	return profile;
 }
 
@@ -95,6 +95,6 @@ int * neighborhood_degree_sequence(Graph *graph, int node_index, int *length) {
 
 int * neighborhood_degree_sequence_sorted(Graph *graph, int node_index, int *length) {
 	int * deg_seq = neighborhood_degree_sequence(graph, node_index, length);
-	int_counting_sort(graph->order, *length, deg_seq);
+	int_counting_sort_rev(graph->order, *length, deg_seq);
 	return deg_seq;
 }
