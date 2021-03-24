@@ -19,7 +19,6 @@ int commands_length = sizeof(commands) / sizeof(char *);
 
 char * command_descriptions[] = {
 	"neighborhood <profile> <filename>\n"
-	"\t[[ !!INCOMPLETE!! ]]\n"
 	"\t<profile> is either Imax, Imin, Emax, or Emin\n"
 	"\t<filename> is in g6 format, showg from nauty is used behind the\n"
 	"\tscenes to read the file. The profile for each graph in\n"
