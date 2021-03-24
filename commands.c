@@ -18,11 +18,13 @@ char * commands[] = {
 int commands_length = sizeof(commands) / sizeof(char *);
 
 char * command_descriptions[] = {
-	"neighborhood <profile> <filename>\n"
+	"neighborhood <profile> <filename> [--no-showg]\n"
 	"\t<profile> is either Imax, Imin, Emax, or Emin\n"
 	"\t<filename> is in g6 format, showg from nauty is used behind the\n"
 	"\tscenes to read the file. The profile for each graph in\n"
-	"\t<filename> will be printed out line by line.",
+	"\t<filename> will be printed out line by line.\n"
+	"\tIf --no-showg is passed then <filename> is expected to be a file\n"
+	"\tthat is already parsed by showg.\n",
 };
 
 enum command_num {
@@ -64,7 +66,12 @@ int neighborhood_command(int argc, char *argv[]) {
 		printf("Error: unknown type %s\n", ptype);
 		return 1;
 	}
-	FILE * showg = showg_graph_stream(filename);
+	FILE * showg;
+	if (argc > 2 && strcmp(argv[2], "--no-showg") == 0) {
+		showg = fopen(filename, "r");
+	} else {
+		showg = showg_graph_stream(filename);
+	}
 	Graph *graph = read_in_graph(showg);
 	while (graph != NULL) {
 		Profile *nprofile = create_neighborhood_profile_sorted(graph, profile_type);
