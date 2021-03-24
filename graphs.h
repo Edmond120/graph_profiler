@@ -14,7 +14,7 @@ Profile * create_profile(unsigned int n);
 void free_profile(Profile *p);
 
 typedef struct {
-	int edge_count;
+	int degree;
 	// edges is an array where each number is a Graph.nodes index.
 	int * edges;
 } Node;
@@ -34,10 +34,10 @@ Graph * create_graph(int order);
 
 void free_graph(Graph *graph);
 
-/* Creates a node with a edge_count and edges initialized.
- * If edge count is a negative number then edge_count and edges are not
+/* Creates a node with degree and edges initialized.
+ * If edge count is a negative number then degree and edges are not
  * initialized. Should be freed with free_node */
-Node * create_node(int edge_count);
+Node * create_node(int degree);
 
 void free_node(Node *node);
 
