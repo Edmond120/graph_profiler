@@ -3,13 +3,13 @@
 #include "array_utils.h"
 
 void print_int_array(int length, int *array) {
-	for (int i = 0; i < length; i++) {
+	for (int i = 0; i < length - 1; i++) {
 		printf("%d", array[i]);
-		if (i != length - 1) {
-			printf(", ");
-		}
+		printf(", ");
 	}
-	putchar('\n');
+	if (length > 0) {
+		printf("%d\n", array[length - 1]);
+	}
 }
 
 void int_counting_sort(int bound, int length, int *array) {
