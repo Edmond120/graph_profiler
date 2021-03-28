@@ -51,6 +51,7 @@ profile_table_entry profile_table[] = {
 	{ Emax, "Emax" },
 	{ Emin, "Emin"  },
 	{ Range, "Range" },
+	{ Id, "Id" },
 };
 int profile_table_length = sizeof(profile_table)/sizeof(profile_table_entry);
 

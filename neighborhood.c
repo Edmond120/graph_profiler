@@ -54,6 +54,10 @@ static int find_Range(int length, int *neighborhood_degrees) {
 	return max - min;
 }
 
+static int find_Id(int length, int *neighborhood_degrees) {
+	return array_occurences(length, neighborhood_degrees, length);
+}
+
 Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 	int (*profile_func)(int ,int *);
 	switch (type) {
@@ -71,6 +75,9 @@ Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 			break;
 		case Range:
 			profile_func = find_Range;
+			break;
+		case Id:
+			profile_func = find_Id;
 			break;
 		default:
 			return NULL;
