@@ -75,3 +75,11 @@ int array_occurences(int length, int *array, int num) {
 	}
 	return occurences;
 }
+
+int array_sum(int length, int *array) {
+	int sum = 0;
+	for (int i = 0; i < length; i++) {
+		sum += array[i];
+	}
+	return sum;
+}
