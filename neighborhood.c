@@ -58,6 +58,10 @@ static int find_Id(int length, int *neighborhood_degrees) {
 	return array_occurences(length, neighborhood_degrees, length);
 }
 
+static int find_Sum(int length, int *neighborhood_degrees) {
+	return array_sum(length, neighborhood_degrees);
+}
+
 Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 	int (*profile_func)(int ,int *);
 	switch (type) {
@@ -78,6 +82,9 @@ Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 			break;
 		case Id:
 			profile_func = find_Id;
+			break;
+		case Sum:
+			profile_func = find_Sum;
 			break;
 		default:
 			return NULL;

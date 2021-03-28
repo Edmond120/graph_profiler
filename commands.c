@@ -52,6 +52,7 @@ profile_table_entry profile_table[] = {
 	{ Emin, "Emin"  },
 	{ Range, "Range" },
 	{ Id, "Id" },
+	{ Sum, "Sum" },
 };
 int profile_table_length = sizeof(profile_table)/sizeof(profile_table_entry);
 

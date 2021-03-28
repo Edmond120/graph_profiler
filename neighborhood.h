@@ -10,6 +10,7 @@ typedef enum {
 	Emin,
 	Range,
 	Id,
+	Sum,
 } N_profile_type;
 
 /* Obtains an unsorted neighborhood_profile of N_profile_type from
