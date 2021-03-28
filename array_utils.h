@@ -10,4 +10,8 @@ void int_counting_sort(int bound, int length, int *array);
 /* Just like int_counting_sort but the array will be in reverse order */
 void int_counting_sort_rev(int bound, int length, int *array);
 
+/* Returns the smallest value in the array
+ * If the length of the array is 0, return 0 */
+int array_min(int length, int *array);
+
 #endif

@@ -43,3 +43,14 @@ void int_counting_sort_rev(int bound, int length, int *array) {
 		n++;
 	}
 }
+
+int array_min(int length, int *array) {
+	if (length <= 0) { return 0; }
+	int min = array[0];
+	for (int i = 1; i < length; i++) {
+		if (array[i] < min) {
+			min = array[i];
+		}
+	}
+	return min;
+}
