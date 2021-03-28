@@ -12,6 +12,22 @@ void print_int_array(int length, int *array) {
 	}
 }
 
+void print_int_array_tuple(int length, int *array) {
+	putchar('(');
+	for (int i = 0; i < length - 1; i++) {
+		printf("%d", array[i]);
+		printf(", ");
+	}
+	if (length > 0) {
+		printf("%d", array[length - 1]);
+	}
+	if (length == 1) {
+		putchar(',');
+	}
+	putchar(')');
+	putchar('\n');
+}
+
 void int_counting_sort(int bound, int length, int *array) {
 	int counts[bound];
 	memset(counts, 0, bound * sizeof(int));
