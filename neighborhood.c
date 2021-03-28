@@ -47,6 +47,13 @@ static int find_Emin(int length, int *neighborhood_degrees) {
 	return min;
 }
 
+/* This function uses an exclusive neighborhood */
+static int find_Range(int length, int *neighborhood_degrees) {
+	int max = array_max(length, neighborhood_degrees);
+	int min = array_min(length, neighborhood_degrees);
+	return max - min;
+}
+
 Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 	int (*profile_func)(int ,int *);
 	switch (type) {
@@ -61,6 +68,9 @@ Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 			break;
 		case Emin:
 			profile_func = find_Emin;
+			break;
+		case Range:
+			profile_func = find_Range;
 			break;
 		default:
 			return NULL;

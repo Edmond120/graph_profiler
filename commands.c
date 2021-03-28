@@ -57,6 +57,8 @@ int neighborhood_command(int argc, char *argv[]) {
 		profile_type = Emax;
 	} else if (strcmp(ptype, "Emin") == 0) {
 		profile_type = Emin;
+	} else if (strcmp(ptype, "Range") == 0) {
+		profile_type = Range;
 	} else {
 		printf("Error: unknown type %s\n", ptype);
 		return 1;
