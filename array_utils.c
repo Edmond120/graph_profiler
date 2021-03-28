@@ -65,3 +65,13 @@ int array_max(int length, int *array) {
 	}
 	return max;
 }
+
+int array_occurences(int length, int *array, int num) {
+	int occurences = 0;
+	for (int i = 0; i < length; i++) {
+		if (array[i] == num) {
+			occurences++;
+		}
+	}
+	return occurences;
+}

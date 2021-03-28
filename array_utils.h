@@ -18,4 +18,7 @@ int array_min(int length, int *array);
  * If the length is 0, return 0. */
 int array_max(int length, int *array);
 
+/* Returns the number of times "num" appears in the array. */
+int array_occurences(int lenght, int *array, int num);
+
 #endif
