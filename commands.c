@@ -2,6 +2,7 @@
 #include <string.h>
 #include "commands.h"
 #include "neighborhood.h"
+#include "array_utils.h"
 
 command commands[] = {
 	{
@@ -90,7 +91,7 @@ int neighborhood_command(int argc, char *argv[]) {
 	Graph *graph = read_in_graph(showg);
 	while (graph != NULL) {
 		Profile *nprofile = create_neighborhood_profile_sorted(graph, profile_type);
-		print_profile(nprofile);
+		print_int_array_tuple(nprofile->length, nprofile->sequence);
 		free_profile(nprofile);
 		free_graph(graph);
 		graph = read_in_graph(showg);
