@@ -40,6 +40,32 @@ void static print_command_description(char *command_name) {
 }
 
 /* commands */
+typedef struct {
+	N_profile_type type;
+	const char *matching_string;
+} profile_table_entry;
+
+profile_table_entry profile_table[] = {
+	{ Imax, "Imax" },
+	{ Imin, "Imin" },
+	{ Emax, "Emax" },
+	{ Emin, "Emin"  },
+	{ Range, "Range" },
+};
+int profile_table_length = sizeof(profile_table)/sizeof(profile_table_entry);
+
+/* Helper function for neighborhood_command.
+ * Writes the type to "match", if there is no match, return 0.
+ * If there is a match, return 1 */
+static int match_profile_type(char *ptype, N_profile_type *match) {
+	for (int i = 0; i < profile_table_length; i++) {
+		if (strcmp(profile_table[i].matching_string, ptype) == 0) {
+			*match = profile_table[i].type;
+			return 1;
+		}
+	}
+	return 0;
+}
 
 int neighborhood_command(int argc, char *argv[]) {
 	if (argc < 2) {
@@ -49,17 +75,7 @@ int neighborhood_command(int argc, char *argv[]) {
 	char *ptype = argv[0];
 	char *filename = argv[1];
 	N_profile_type profile_type;
-	if (strcmp(ptype, "Imax") == 0) {
-		profile_type = Imax;
-	} else if (strcmp(ptype, "Imin") == 0) {
-		profile_type = Imin;
-	} else if (strcmp(ptype, "Emax") == 0) {
-		profile_type = Emax;
-	} else if (strcmp(ptype, "Emin") == 0) {
-		profile_type = Emin;
-	} else if (strcmp(ptype, "Range") == 0) {
-		profile_type = Range;
-	} else {
+	if (!(match_profile_type(ptype, &profile_type))) {
 		printf("Error: unknown type %s\n", ptype);
 		return 1;
 	}
