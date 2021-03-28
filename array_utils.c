@@ -54,3 +54,14 @@ int array_min(int length, int *array) {
 	}
 	return min;
 }
+
+int array_max(int length, int *array) {
+	if (length <= 0) { return 0; }
+	int max = array[0];
+	for (int i = 1; i < length; i++) {
+		if (array[i] > max) {
+			max = array[i];
+		}
+	}
+	return max;
+}

@@ -14,4 +14,8 @@ void int_counting_sort_rev(int bound, int length, int *array);
  * If the length of the array is 0, return 0 */
 int array_min(int length, int *array);
 
+/* Returns the biggest value in the array.
+ * If the length is 0, return 0. */
+int array_max(int length, int *array);
+
 #endif
