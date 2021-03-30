@@ -26,6 +26,7 @@ static int find_Imin(int length, int *neighborhood_degrees) {
 	return min;
 }
 
+/* This function uses an exclusive neighborhood */
 static int find_Emax(int length, int *neighborhood_degrees) {
 	int max = 0;
 	for (int i = 0; i < length; i++) {
@@ -36,6 +37,7 @@ static int find_Emax(int length, int *neighborhood_degrees) {
 	return max;
 }
 
+/* This function uses an exclusive neighborhood */
 static int find_Emin(int length, int *neighborhood_degrees) {
 	if (length <= 0) { return 0; }
 	int min = neighborhood_degrees[0];
@@ -54,10 +56,12 @@ static int find_Range(int length, int *neighborhood_degrees) {
 	return max - min;
 }
 
+/* This function uses an exclusive neighborhood */
 static int find_Id(int length, int *neighborhood_degrees) {
 	return array_occurences(length, neighborhood_degrees, length);
 }
 
+/* This function uses an exclusive neighborhood */
 static int find_Sum(int length, int *neighborhood_degrees) {
 	return array_sum(length, neighborhood_degrees);
 }
