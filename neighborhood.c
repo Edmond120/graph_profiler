@@ -105,7 +105,8 @@ Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 
 Profile * create_neighborhood_profile_sorted(Graph *graph, N_profile_type type) {
 	Profile *profile = create_neighborhood_profile(graph, type);
-	int_counting_sort_rev(profile->length, profile->length, profile->sequence);
+	int max = array_max(profile->length, profile->sequence);
+	int_counting_sort_rev(max, profile->length, profile->sequence);
 	return profile;
 }
 
