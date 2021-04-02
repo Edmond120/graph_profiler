@@ -29,6 +29,7 @@ void print_int_array_tuple(int length, int *array) {
 }
 
 void int_counting_sort(int bound, int length, int *array) {
+	bound += 1;
 	int counts[bound];
 	memset(counts, 0, bound * sizeof(int));
 	for (int i = 0; i < length; i++) {
@@ -45,6 +46,7 @@ void int_counting_sort(int bound, int length, int *array) {
 }
 
 void int_counting_sort_rev(int bound, int length, int *array) {
+	bound += 1;
 	int counts[bound];
 	memset(counts, 0, bound * sizeof(int));
 	for (int i = 0; i < length; i++) {

@@ -7,7 +7,7 @@ void print_int_array(int length, int *array);
 void print_int_array_tuple(int length, int *array);
 
 /* Sorts array using a counting sort. The integers in the array must be
- * between 0 and bound (exclusive) */
+ * between 0 and bound (inclusive) */
 void int_counting_sort(int bound, int length, int *array);
 
 /* Just like int_counting_sort but the array will be in reverse order */
