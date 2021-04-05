@@ -88,6 +88,38 @@ static int find_Different(int length, int *neighborhood_degrees) {
 	return diff;
 }
 
+/* If there is a tie, then the bigger degree will be seleted */
+static int find_Popular(int length, int *neighborhood_degrees) {
+	int max = array_max(length, neighborhood_degrees);
+	if (length > max) { max = length; }
+	int array_length = max + 1;
+	int array[array_length];
+	for (int i = 0; i < array_length; i++) array[i] = 0;
+	array[length]++;
+
+	for (int i = 0; i < length; i++) {
+		int degree = neighborhood_degrees[i];
+		array[degree]++;
+	}
+
+	int most_occurences = 0;
+	int popular_degree = -1;
+	for (int i = 0; i < array_length; i++) {
+		if (array[i] == 0) { continue; }
+		if (array[i] > most_occurences) {
+			most_occurences = array[i];
+			popular_degree = i;
+		} else if (array[i] == most_occurences) {
+			if (i > popular_degree) {
+				most_occurences = array[i];
+				popular_degree = i;
+			}
+		}
+	}
+
+	return popular_degree;
+}
+
 Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 	int (*profile_func)(int ,int *);
 	switch (type) {
@@ -114,6 +146,9 @@ Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 			break;
 		case Different:
 			profile_func = find_Different;
+			break;
+		case Popular:
+			profile_func = find_Popular;
 			break;
 		default:
 			return NULL;

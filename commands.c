@@ -8,8 +8,8 @@ command commands[] = {
 	{
 		"neighborhood",
 		"neighborhood <profile> <filename> [--no-showg]\n"
-		"\t<profile> is either Imax, Imin, Emax, Emin, Range, Id, Sum, and\n"
-		"\tDifferent.\n"
+		"\t<profile> is either Imax, Imin, Emax, Emin, Range, Id, Sum,\n"
+		"\tDifferent, and Popular.\n"
 		"\t<filename> is in g6 format, showg from nauty is used behind the\n"
 		"\tscenes to read the file. The profile for each graph in\n"
 		"\t<filename> will be printed out line by line.\n"
@@ -56,6 +56,7 @@ profile_table_entry profile_table[] = {
 	{ Id, "Id" },
 	{ Sum, "Sum" },
 	{ Different, "Different" },
+	{ Popular, "Popular" },
 };
 int profile_table_length = sizeof(profile_table)/sizeof(profile_table_entry);
 
