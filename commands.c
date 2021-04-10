@@ -7,13 +7,15 @@
 command commands[] = {
 	{
 		"neighborhood",
-		"neighborhood <profile> <filename> [--no-showg]\n"
+		"neighborhood <neighborhood> <profile> <filename> [--no-showg]\n"
+		"\t<neighborhood> is either inclusive or exclusive.\n"
 		"\t<profile> is either Max, Min, Range, Id, Sum, Different, and Popular.\n"
 		"\t<filename> is in g6 format, showg from nauty is used behind the\n"
 		"\tscenes to read the file. The profile for each graph in\n"
 		"\t<filename> will be printed out line by line.\n"
 		"\tIf --no-showg is passed then <filename> is expected to be a file\n"
-		"\tthat is already parsed by showg.\n",
+		"\tthat is already parsed by showg.\n"
+		"\tExample: profiler neighborhood inclusive Max 10_vertices.g6\n",
 		&neighborhood_command,
 	},
 };
@@ -71,26 +73,37 @@ static int match_profile_type(char *ptype, N_profile_type *match) {
 }
 
 int neighborhood_command(int argc, char *argv[]) {
-	if (argc < 2) {
+	if (argc < 3) {
 		print_command_description("neighborhood");
 		return 1;
 	}
-	char *ptype = argv[0];
-	char *filename = argv[1];
+	char *neighborhood_type = argv[0];
+	char *ptype = argv[1];
+	char *filename = argv[2];
 	N_profile_type profile_type;
+
+	bool is_inclusive;
+	if (strcmp(neighborhood_type, "inclusive") == 0) {
+		is_inclusive = true;
+	} else if (strcmp(neighborhood_type, "exclusive") == 0) {
+		is_inclusive = false;
+	} else {
+		printf("Error: unknown neighborhood type %s\n", neighborhood_type);
+		return 1;
+	}
 	if (!(match_profile_type(ptype, &profile_type))) {
 		printf("Error: unknown type %s\n", ptype);
 		return 1;
 	}
 	FILE * showg;
-	if (argc > 2 && strcmp(argv[2], "--no-showg") == 0) {
+	if (argc > 3 && strcmp(argv[3], "--no-showg") == 0) {
 		showg = fopen(filename, "r");
 	} else {
 		showg = showg_graph_stream(filename);
 	}
 	Graph *graph = read_in_graph(showg);
 	while (graph != NULL) {
-		Profile *nprofile = create_neighborhood_profile_sorted(graph, profile_type, true);
+		Profile *nprofile = create_neighborhood_profile_sorted(graph, profile_type, is_inclusive);
 		print_int_array_tuple(nprofile->length, nprofile->sequence);
 		free_profile(nprofile);
 		free_graph(graph);
