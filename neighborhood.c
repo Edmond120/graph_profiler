@@ -2,32 +2,7 @@
 #include "neighborhood.h"
 #include "array_utils.h"
 
-static int find_Imax(int length, int *neighborhood_degrees) {
-	int max = length;
-	for (int i = 0; i < length; i++) {
-		if (neighborhood_degrees[i] > max) {
-			max = neighborhood_degrees[i];
-		}
-	}
-	return max;
-}
-
-static int find_Imin(int length, int *neighborhood_degrees) {
-	if (length <= 0) { return 0; }
-	int min = neighborhood_degrees[0];
-	for (int i = 1; i < length; i++) {
-		if (neighborhood_degrees[i] < min) {
-			min = neighborhood_degrees[i];
-		}
-	}
-	if (length < min) {
-		min = length;
-	}
-	return min;
-}
-
-/* This function uses an exclusive neighborhood */
-static int find_Emax(int length, int *neighborhood_degrees) {
+static int find_Max(int length, int *neighborhood_degrees, bool is_inclusive) {
 	int max = 0;
 	for (int i = 0; i < length; i++) {
 		if (neighborhood_degrees[i] > max) {
@@ -37,8 +12,7 @@ static int find_Emax(int length, int *neighborhood_degrees) {
 	return max;
 }
 
-/* This function uses an exclusive neighborhood */
-static int find_Emin(int length, int *neighborhood_degrees) {
+static int find_Min(int length, int *neighborhood_degrees, bool is_inclusive) {
 	if (length <= 0) { return 0; }
 	int min = neighborhood_degrees[0];
 	for (int i = 1; i < length; i++) {
@@ -49,30 +23,31 @@ static int find_Emin(int length, int *neighborhood_degrees) {
 	return min;
 }
 
-/* This function uses an exclusive neighborhood */
-static int find_Range(int length, int *neighborhood_degrees) {
+static int find_Range(int length, int *neighborhood_degrees, bool is_inclusive) {
 	int max = array_max(length, neighborhood_degrees);
 	int min = array_min(length, neighborhood_degrees);
 	return max - min;
 }
 
-/* This function uses an exclusive neighborhood */
-static int find_Id(int length, int *neighborhood_degrees) {
-	return array_occurences(length, neighborhood_degrees, length);
+static int find_Id(int length, int *neighborhood_degrees, bool is_inclusive) {
+	int self_degree;
+	if (is_inclusive) {
+		self_degree = length - 1;
+	} else {
+		self_degree = length;
+	}
+	return array_occurences(length, neighborhood_degrees, self_degree);
 }
 
-/* This function uses an exclusive neighborhood */
-static int find_Sum(int length, int *neighborhood_degrees) {
+static int find_Sum(int length, int *neighborhood_degrees, bool is_inclusive) {
 	return array_sum(length, neighborhood_degrees);
 }
 
-static int find_Different(int length, int *neighborhood_degrees) {
+static int find_Different(int length, int *neighborhood_degrees, bool is_inclusive) {
 	int max = array_max(length, neighborhood_degrees);
-	if (length > max) { max = length; }
 	int array_length = max + 1;
 	int array[array_length];
 	for (int i = 0; i < array_length; i++) array[i] = 0;
-	array[length]++;
 
 	for (int i = 0; i < length; i++) {
 		int degree = neighborhood_degrees[i];
@@ -89,13 +64,11 @@ static int find_Different(int length, int *neighborhood_degrees) {
 }
 
 /* If there is a tie, then the bigger degree will be seleted */
-static int find_Popular(int length, int *neighborhood_degrees) {
+static int find_Popular(int length, int *neighborhood_degrees, bool is_inclusive) {
 	int max = array_max(length, neighborhood_degrees);
-	if (length > max) { max = length; }
 	int array_length = max + 1;
 	int array[array_length];
 	for (int i = 0; i < array_length; i++) array[i] = 0;
-	array[length]++;
 
 	for (int i = 0; i < length; i++) {
 		int degree = neighborhood_degrees[i];
@@ -120,20 +93,14 @@ static int find_Popular(int length, int *neighborhood_degrees) {
 	return popular_degree;
 }
 
-Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
-	int (*profile_func)(int ,int *);
+Profile * create_neighborhood_profile(Graph *graph, N_profile_type type, bool is_inclusive) {
+	int (*profile_func)(int ,int *, bool);
 	switch (type) {
-		case Imax:
-			profile_func = find_Imax;
+		case Max:
+			profile_func = find_Max;
 			break;
-		case Imin:
-			profile_func = find_Imin;
-			break;
-		case Emax:
-			profile_func = find_Emax;
-			break;
-		case Emin:
-			profile_func = find_Emin;
+		case Min:
+			profile_func = find_Min;
 			break;
 		case Range:
 			profile_func = find_Range;
@@ -156,35 +123,41 @@ Profile * create_neighborhood_profile(Graph *graph, N_profile_type type) {
 	Profile *profile = create_profile(graph->order);
 	for (int i = 0; i < graph->order; i++) {
 		int length;
-		int *degree_seq = neighborhood_degree_sequence(graph, i, &length);
-		profile->sequence[i] = (*profile_func)(length, degree_seq);
+		int *degree_seq = neighborhood_degree_sequence(graph, i, &length, is_inclusive);
+		profile->sequence[i] = (*profile_func)(length, degree_seq, is_inclusive);
 		free(degree_seq);
 	}
 	return profile;
 }
 
-Profile * create_neighborhood_profile_sorted(Graph *graph, N_profile_type type) {
-	Profile *profile = create_neighborhood_profile(graph, type);
+Profile * create_neighborhood_profile_sorted(Graph *graph, N_profile_type type, bool is_inclusive) {
+	Profile *profile = create_neighborhood_profile(graph, type, is_inclusive);
 	int max = array_max(profile->length, profile->sequence);
 	int_counting_sort_rev(max, profile->length, profile->sequence);
 	return profile;
 }
 
-int * neighborhood_degree_sequence(Graph *graph, int node_index, int *length) {
+int * neighborhood_degree_sequence(Graph *graph, int node_index, int *length, bool is_inclusive) {
 	Node *node = graph->nodes[node_index];
-	int *deg_seq = (int *) calloc(node->degree, sizeof(int));
 	*length = node->degree;
+	if (is_inclusive) {
+		*length += 1;
+	}
+	int *deg_seq = (int *) calloc(*length, sizeof(int));
 	for (int i = 0; i < node->degree; i++) {
 		int *edges = node->edges;
 		Node *neighbor = graph->nodes[edges[i]];
 		int degree = neighbor->degree;
 		deg_seq[i] = degree;
 	}
+	if (is_inclusive) {
+		deg_seq[*length - 1] = node->degree;
+	}
 	return deg_seq;
 }
 
-int * neighborhood_degree_sequence_sorted(Graph *graph, int node_index, int *length) {
-	int * deg_seq = neighborhood_degree_sequence(graph, node_index, length);
+int * neighborhood_degree_sequence_sorted(Graph *graph, int node_index, int *length, bool is_inclusive) {
+	int * deg_seq = neighborhood_degree_sequence(graph, node_index, length, is_inclusive);
 	int_counting_sort_rev(graph->order, *length, deg_seq);
 	return deg_seq;
 }

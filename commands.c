@@ -8,8 +8,7 @@ command commands[] = {
 	{
 		"neighborhood",
 		"neighborhood <profile> <filename> [--no-showg]\n"
-		"\t<profile> is either Imax, Imin, Emax, Emin, Range, Id, Sum,\n"
-		"\tDifferent, and Popular.\n"
+		"\t<profile> is either Max, Min, Range, Id, Sum, Different, and Popular.\n"
 		"\t<filename> is in g6 format, showg from nauty is used behind the\n"
 		"\tscenes to read the file. The profile for each graph in\n"
 		"\t<filename> will be printed out line by line.\n"
@@ -48,10 +47,8 @@ typedef struct {
 } profile_table_entry;
 
 profile_table_entry profile_table[] = {
-	{ Imax, "Imax" },
-	{ Imin, "Imin" },
-	{ Emax, "Emax" },
-	{ Emin, "Emin"  },
+	{ Max, "Max" },
+	{ Min, "Min" },
 	{ Range, "Range" },
 	{ Id, "Id" },
 	{ Sum, "Sum" },
@@ -93,7 +90,7 @@ int neighborhood_command(int argc, char *argv[]) {
 	}
 	Graph *graph = read_in_graph(showg);
 	while (graph != NULL) {
-		Profile *nprofile = create_neighborhood_profile_sorted(graph, profile_type);
+		Profile *nprofile = create_neighborhood_profile_sorted(graph, profile_type, true);
 		print_int_array_tuple(nprofile->length, nprofile->sequence);
 		free_profile(nprofile);
 		free_graph(graph);
