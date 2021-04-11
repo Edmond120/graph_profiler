@@ -19,21 +19,21 @@ static int find_Popular_h(int length, int *neighborhood_degrees, bool is_inclusi
 		array[degree]++;
 	}
 
-	int most_occurences = 0;
+	int most_occurrences = 0;
 	int popular_degree = -1;
 	for (int i = 0; i < array_length; i++) {
 		if (array[i] == 0) { continue; }
-		if (array[i] > most_occurences) {
-			most_occurences = array[i];
+		if (array[i] > most_occurrences) {
+			most_occurrences = array[i];
 			popular_degree = i;
-		} else if (array[i] == most_occurences) {
+		} else if (array[i] == most_occurrences) {
 			if (i > popular_degree) {
-				most_occurences = array[i];
+				most_occurrences = array[i];
 				popular_degree = i;
 			}
 		}
 	}
-	if (occurrences != NULL) { *occurrences = most_occurences; }
+	if (occurrences != NULL) { *occurrences = most_occurrences; }
 	return popular_degree;
 }
 
@@ -71,7 +71,7 @@ static int find_Id(int length, int *neighborhood_degrees, bool is_inclusive) {
 	} else {
 		self_degree = length;
 	}
-	return array_occurences(length, neighborhood_degrees, self_degree);
+	return array_occurrences(length, neighborhood_degrees, self_degree);
 }
 
 static int find_Sum(int length, int *neighborhood_degrees, bool is_inclusive) {

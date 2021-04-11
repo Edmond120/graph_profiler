@@ -84,14 +84,14 @@ int array_max(int length, int *array) {
 	return max;
 }
 
-int array_occurences(int length, int *array, int num) {
-	int occurences = 0;
+int array_occurrences(int length, int *array, int num) {
+	int occurrences = 0;
 	for (int i = 0; i < length; i++) {
 		if (array[i] == num) {
-			occurences++;
+			occurrences++;
 		}
 	}
-	return occurences;
+	return occurrences;
 }
 
 int array_sum(int length, int *array) {
