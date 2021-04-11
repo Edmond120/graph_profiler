@@ -2,6 +2,41 @@
 #include "neighborhood.h"
 #include "array_utils.h"
 
+/* Helper function for find_Popular and find_Max_occur since
+ * both the popular degree and the amount of occurrences can
+ * be computed together.
+ * Result for Max_occur will be written to *occurrences.
+ * Result for Popular will be returned, if there is a tie the
+ * bigger degree will be selected. */
+static int find_Popular_h(int length, int *neighborhood_degrees, bool is_inclusive, int *occurrences) {
+	int max = array_max(length, neighborhood_degrees);
+	int array_length = max + 1;
+	int array[array_length];
+	for (int i = 0; i < array_length; i++) array[i] = 0;
+
+	for (int i = 0; i < length; i++) {
+		int degree = neighborhood_degrees[i];
+		array[degree]++;
+	}
+
+	int most_occurences = 0;
+	int popular_degree = -1;
+	for (int i = 0; i < array_length; i++) {
+		if (array[i] == 0) { continue; }
+		if (array[i] > most_occurences) {
+			most_occurences = array[i];
+			popular_degree = i;
+		} else if (array[i] == most_occurences) {
+			if (i > popular_degree) {
+				most_occurences = array[i];
+				popular_degree = i;
+			}
+		}
+	}
+	if (occurrences != NULL) { *occurrences = most_occurences; }
+	return popular_degree;
+}
+
 static int find_Max(int length, int *neighborhood_degrees, bool is_inclusive) {
 	int max = 0;
 	for (int i = 0; i < length; i++) {
@@ -63,34 +98,16 @@ static int find_Different(int length, int *neighborhood_degrees, bool is_inclusi
 	return diff;
 }
 
-/* If there is a tie, then the bigger degree will be seleted */
+/* Will return the bigger degree if there is a tie. */
 static int find_Popular(int length, int *neighborhood_degrees, bool is_inclusive) {
-	int max = array_max(length, neighborhood_degrees);
-	int array_length = max + 1;
-	int array[array_length];
-	for (int i = 0; i < array_length; i++) array[i] = 0;
+	return find_Popular_h(length, neighborhood_degrees, is_inclusive, NULL);
+}
 
-	for (int i = 0; i < length; i++) {
-		int degree = neighborhood_degrees[i];
-		array[degree]++;
-	}
-
-	int most_occurences = 0;
-	int popular_degree = -1;
-	for (int i = 0; i < array_length; i++) {
-		if (array[i] == 0) { continue; }
-		if (array[i] > most_occurences) {
-			most_occurences = array[i];
-			popular_degree = i;
-		} else if (array[i] == most_occurences) {
-			if (i > popular_degree) {
-				most_occurences = array[i];
-				popular_degree = i;
-			}
-		}
-	}
-
-	return popular_degree;
+/* Returns the amount of occurrences of the most popular degree in the neighborhood */
+static int find_Max_occur(int length, int *neighborhood_degrees, bool is_inclusive) {
+	int occurrences;
+	find_Popular_h(length, neighborhood_degrees, is_inclusive, &occurrences);
+	return occurrences;
 }
 
 Profile * create_neighborhood_profile(Graph *graph, N_profile_type type, bool is_inclusive) {
@@ -116,6 +133,9 @@ Profile * create_neighborhood_profile(Graph *graph, N_profile_type type, bool is
 			break;
 		case Popular:
 			profile_func = find_Popular;
+			break;
+		case Max_occur:
+			profile_func = find_Max_occur;
 			break;
 		default:
 			return NULL;

@@ -12,6 +12,7 @@ typedef enum {
 	Sum,
 	Different,
 	Popular,
+	Max_occur,
 } N_profile_type;
 
 /* Obtains an unsorted neighborhood_profile of N_profile_type from
