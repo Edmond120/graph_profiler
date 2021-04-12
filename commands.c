@@ -10,7 +10,7 @@ command commands[] = {
 		"neighborhood <neighborhood> <profile> <filename> [--no-showg]\n"
 		"\t<neighborhood> is either inclusive or exclusive.\n"
 		"\t<profile> is either Max, Min, Range, Id, Sum, Different, Popular,\n"
-		"\tand Max_occur.\n"
+		"\tMax_occur and Degree.\n"
 		"\t<filename> is in g6 format, showg from nauty is used behind the\n"
 		"\tscenes to read the file. The profile for each graph in\n"
 		"\t<filename> will be printed out line by line.\n"
@@ -58,6 +58,7 @@ profile_table_entry profile_table[] = {
 	{ Different, "Different" },
 	{ Popular, "Popular" },
 	{ Max_occur, "Max_occur" },
+	{ Degree, "Degree" },
 };
 int profile_table_length = sizeof(profile_table)/sizeof(profile_table_entry);
 

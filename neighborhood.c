@@ -110,6 +110,12 @@ static int find_Max_occur(int length, int *neighborhood_degrees, bool is_inclusi
 	return occurrences;
 }
 
+/* The exclusive Degree profile is just the degree sequence, this option is just
+ * included here for convenience. */
+static int find_Degree(int length, int *neighborhood_degrees, bool is_inclusive) {
+	return length;
+}
+
 Profile * create_neighborhood_profile(Graph *graph, N_profile_type type, bool is_inclusive) {
 	int (*profile_func)(int ,int *, bool);
 	switch (type) {
@@ -136,6 +142,9 @@ Profile * create_neighborhood_profile(Graph *graph, N_profile_type type, bool is
 			break;
 		case Max_occur:
 			profile_func = find_Max_occur;
+			break;
+		case Degree:
+			profile_func = find_Degree;
 			break;
 		default:
 			return NULL;
