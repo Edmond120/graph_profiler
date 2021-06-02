@@ -9,6 +9,9 @@
  * Result for Popular will be returned, if there is a tie the
  * bigger degree will be selected. */
 static int find_Popular_h(int length, int *neighborhood_degrees, bool is_inclusive, int *occurrences) {
+	if (length == 0) {
+		return 0;
+	}
 	int max = array_max(length, neighborhood_degrees);
 	int array_length = max + 1;
 	int array[array_length];
