@@ -22,7 +22,6 @@ static int find_Popular_h(int length, int *neighborhood_degrees, bool is_inclusi
 	int most_occurrences = 0;
 	int popular_degree = -1;
 	for (int i = 0; i < array_length; i++) {
-		if (array[i] == 0) { continue; }
 		if (array[i] > most_occurrences) {
 			most_occurrences = array[i];
 			popular_degree = i;
